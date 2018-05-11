@@ -47,7 +47,7 @@ cd ../springboot-dubbo-zookeeper-demo/spring-boot-cosumer
 mvn spring-boot:run
 ```
 
-### spring-boot-provider配置
+### spring-boot-provider实现和配置
 ```
 @Service(
         version = "1.0.0",
@@ -61,7 +61,9 @@ public class DubboProvider implements IDubboProvider {
     public Response sayHello() {
         return new Response("connect success!!");
     }
+```
 application.properties配置
+```
 # Spring boot application
 spring.application.name = dubbo-provider-demo
 server.port = 9090
@@ -93,7 +95,7 @@ dubbo.registry.timeout = 30000
 dubbo.protocol.threads = 10
 ```
 
-### spring-boot-cosumer配置
+### spring-boot-cosumer实现和配置
 ```
     @Reference(version = "${demo.service.version}",
             application = "${dubbo.application.id}",
@@ -104,8 +106,9 @@ dubbo.protocol.threads = 10
     public Response sayHello() {
         return dubboProvider.sayHello();
     }
-
+```
 application.properties配置
+```
 # Spring boot application
 spring.application.name = dubbo-consumer-demo
 server.port = 8080
