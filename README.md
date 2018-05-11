@@ -49,6 +49,19 @@ mvn spring-boot:run
 
 ### spring-boot-provider配置
 ```
+@Service(
+        version = "1.0.0",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
+public class DubboProvider implements IDubboProvider {
+
+    @Override
+    public Response sayHello() {
+        return new Response("connect success!!");
+    }
+application.properties配置
 # Spring boot application
 spring.application.name = dubbo-provider-demo
 server.port = 9090
@@ -82,6 +95,17 @@ dubbo.protocol.threads = 10
 
 ### spring-boot-cosumer配置
 ```
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            registry = "${dubbo.registry.id}")
+    private IDubboProvider dubboProvider;
+
+    @RequestMapping("/sayHello")
+    public Response sayHello() {
+        return dubboProvider.sayHello();
+    }
+
+application.properties配置
 # Spring boot application
 spring.application.name = dubbo-consumer-demo
 server.port = 8080
